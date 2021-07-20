@@ -5,7 +5,6 @@
 
 ## To-Do:
 <ul>
-  <li> Implement recursive function for cell reveal </li>
   <li> Implement scoring system </li>  
   <li> Flagging, to make gameplay more bearable </li>
 </ul>
