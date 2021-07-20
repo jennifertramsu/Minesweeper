@@ -9,7 +9,7 @@ public class MineSweeperApp {
         int y;
         Scanner in = new Scanner(System.in);
 
-        Minefield game = new Minefield(15, 15);
+        Minefield game = new Minefield(15);
 
         while (!game.isGameDone()) {
             displayBoard(game);

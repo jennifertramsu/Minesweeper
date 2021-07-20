@@ -11,9 +11,9 @@ public class Minefield {
 
     // constructor
 
-    public Minefield(int sizeX, int sizeY) {
-        this.board = new Cell[sizeX][sizeY]; // creating square board
-        this.mines = sizeX * sizeY / 8; // wants mines to take up 1/5 of board
+    public Minefield(int sizeX) {
+        this.board = new Cell[sizeX][sizeX]; // creating square board
+        this.mines = sizeX * sizeX / 8; // want mines to take up 1/5 of board
         this.score = 0;
 
         // create blank cells
@@ -91,117 +91,35 @@ public class Minefield {
     // when player inputs coordinate to uncover
 
     public void play(int x, int y) {
+        // check if coordinates are within board dimensions
+        if (x < 0 || x > board.length-1 || y < 0 || y > board.length-1) {
+            return;
+        }
         Cell cell = board[x][y]; // selected cell
+        // if already uncovered, pass
+        if (cell.isUncovered()) {
+            return;
+        }
         switch (cell.getType()) {
             case MINE:
                 gameDone = true; // ends game
                 System.out.println("You found a mine!");
+                break;
             case NUMBER:
                 cell.uncover();
+                break;
             case BLANK:
                 cell.uncover();
-                // uncoverNearby(cell);
-        }
-    }
-
-    // when player chooses blank cell
-
-    private void uncoverNearby(Cell cell) {
-        int x = cell.getxCoord();
-        int y = cell.getyCoord();
-        int up;
-        int down;
-        int left;
-        int right;
-
-        // traverse in the 8 directions
-
-        // up
-
-        up = x - 1; // row above
-
-        while (up > 0) {
-            board[up][y].uncover();
-            if (board[up][y].getType() == Type.NUMBER) {
+                // safe to call play on all 8 adjacent cells
+                play(x, y-1);
+                play(x, y+1);
+                play(x-1, y);
+                play(x+1, y);
+                play(x-1, y-1);
+                play(x-1, y+1);
+                play(x+1, y-1);
+                play(x+1, y+1);
                 break;
-            }
-            up--;
-        }
-
-        // down
-
-        down = x + 1;
-
-        while (down < board.length) {
-            board[down][y].uncover();
-            if (board[down][y].getType() == Type.NUMBER) {
-                break;
-            }
-            down++;
-        }
-
-        // left
-
-        left = y - 1;
-
-        while (left > 0) {
-            board[x][left].uncover();
-            if (board[x][left].getType() == Type.NUMBER) {
-                break;
-            }
-            left--;
-        }
-
-        // right
-
-        right = y + 1;
-
-        while (right < board[x].length) {
-            board[x][right].uncover();
-            if (board[x][right].getType() == Type.NUMBER) {
-                break;
-            }
-            right++;
-        }
-
-        up = x - 1;
-        left = y - 1;
-
-        while (up > 0 && left > 0) {
-            board[up][left].uncover();
-            if (board[up][left].getType() == Type.NUMBER) {
-                break;
-            }
-        }
-
-        up = x - 1;
-        right = y + 1;
-
-        while (up > 0 && right < board.length) {
-            board[up][right].uncover();
-            if (board[up][right].getType() == Type.NUMBER) {
-                break;
-            }
-        }
-
-        down = x + 1;
-        left = y - 1;
-
-        while (down < board.length && left > 0) {
-            board[down][left].uncover();
-            if (board[down][left].getType() == Type.NUMBER) {
-                break;
-            }
-        }
-
-        down = x + 1;
-        right = y + 1;
-
-        while (down < board.length && right < board.length) {
-            board[down][right].uncover();
-            if (board[down][right].getType() == Type.NUMBER) {
-                break;
-            }
         }
     }
 
