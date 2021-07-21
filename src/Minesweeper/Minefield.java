@@ -8,6 +8,8 @@ public class Minefield {
     private int mines;
     private boolean gameDone = false; // toggle to true when entire board is revealed
     private int score;
+    private int blanks;
+    private int blankCount; // keeping track
 
     // constructor
 
@@ -42,13 +44,19 @@ public class Minefield {
             }
         }
 
+        int numberCount = 0;
+
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.getType() != Type.MINE) { // skip if already a mine
                     cell.setNumber(checkMines(cell));
+                    if (cell.getType() == Type.NUMBER) {
+                        numberCount++;
+                    }
                 }
             }
         }
+        this.blanks = sizeX * sizeX - this.mines - numberCount;
     }
 
     private int checkMines(Cell cell) {
@@ -95,6 +103,8 @@ public class Minefield {
         if (x < 0 || x > board.length-1 || y < 0 || y > board.length-1) {
             return;
         }
+        // check if all blank cells have been found
+        checkEnd();
         Cell cell = board[x][y]; // selected cell
         // if already uncovered, pass
         if (cell.isUncovered()) {
@@ -102,7 +112,7 @@ public class Minefield {
         }
         switch (cell.getType()) {
             case MINE:
-                gameDone = true; // ends game
+                this.gameDone = true; // ends game
                 System.out.println("You found a mine!");
                 break;
             case NUMBER:
@@ -110,6 +120,7 @@ public class Minefield {
                 break;
             case BLANK:
                 cell.uncover();
+                this.blankCount++;
                 // safe to call play on all 8 adjacent cells
                 play(x, y-1);
                 play(x, y+1);
@@ -125,7 +136,10 @@ public class Minefield {
 
     private void checkEnd() {
         // when all cells that don't have mines are uncovered
-
+        if (this.blanks == this.blankCount) {
+            this.gameDone = true;
+            System.out.println("Field cleared!");
+        }
     }
 
     private void updateScore() {
@@ -146,7 +160,5 @@ public class Minefield {
         return score;
     }
 
-    public int getMines() {
-        return this.mines;
-    }
+    public int getBlanks() { return this.blanks - this.blankCount; }
 }

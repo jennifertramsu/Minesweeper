@@ -1,5 +1,6 @@
 package Minesweeper;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MineSweeperApp {
@@ -7,21 +8,39 @@ public class MineSweeperApp {
     public static void main(String[] args) {
         int x;
         int y;
+        int size;
         Scanner in = new Scanner(System.in);
 
-        Minefield game = new Minefield(15);
+        System.out.println("Welcome! How large would you like the field to be? ");
+        size = in.nextInt();
+
+        Minefield game = new Minefield(size);
 
         while (!game.isGameDone()) {
             displayBoard(game);
 
             System.out.println("X coordinate: ");
-            x = in.nextInt();
-            System.out.println("Y coordinate: ");
-            y = in.nextInt();
-
-            game.play(x, y);
+            while (true) {
+                try {
+                    x = in.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Only integer values are valid. Try again: ");
+                    in.next();
+                }
             }
-
+            System.out.println("Y coordinate: ");
+            while (true) {
+                try {
+                    y = in.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Only integer values are valid. Try again: ");
+                    in.next();
+                }
+            }
+            game.play(x, y);
+        }
         displayAll(game);
 
         System.out.println("Game over!");
@@ -29,7 +48,7 @@ public class MineSweeperApp {
 
     public static void displayBoard(Minefield field) {
         // print header row
-        System.out.println("Mines Left: " + field.getMines());
+        System.out.println("Blanks Left: " + field.getBlanks());
         System.out.print("      ");
         for (int i = 0; i < field.getBoard()[0].length; i++) {
             if (i >= 10) {
