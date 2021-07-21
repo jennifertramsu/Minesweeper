@@ -4,10 +4,8 @@ import java.util.Random;
 
 public class Minefield {
     private Cell[][] board;
-    static String name = "Minesweeper";
     private int mines;
     private boolean gameDone = false; // toggle to true when entire board is revealed
-    private int score;
     private int blanks;
     private int blankCount; // keeping track
 
@@ -16,8 +14,6 @@ public class Minefield {
     public Minefield(int sizeX) {
         this.board = new Cell[sizeX][sizeX]; // creating square board
         this.mines = sizeX * sizeX / 8; // want mines to take up 1/5 of board
-        this.score = 0;
-
         // create blank cells
 
         for (int i = 0; i < this.board.length; i++) {
@@ -27,7 +23,7 @@ public class Minefield {
         }
         // fill up board with mines
 
-        Random rand = new Random(1);
+        Random rand = new Random();
 
         // randomly fill with mines
 
@@ -154,10 +150,6 @@ public class Minefield {
 
     public Cell[][] getBoard() {
         return board;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public int getBlanks() { return this.blanks - this.blankCount; }

@@ -15,7 +15,7 @@ public class MineSweeperApp {
         size = in.nextInt();
 
         Minefield game = new Minefield(size);
-
+        long start = System.nanoTime();
         while (!game.isGameDone()) {
             displayBoard(game);
 
@@ -41,8 +41,10 @@ public class MineSweeperApp {
             }
             game.play(x, y);
         }
+        long end = System.nanoTime();
         displayAll(game);
 
+        System.out.println("Time elapsed: " + (end - start)/1000000000 + " seconds.");
         System.out.println("Game over!");
         }
 
@@ -81,7 +83,6 @@ public class MineSweeperApp {
             System.out.print(" ||");
             System.out.println();
         }
-        System.out.println("Score: \t" + field.getScore());
     }
 
     public static void displayAll(Minefield field) {
