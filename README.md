@@ -7,5 +7,5 @@
 <ul>
   <li> Implement scoring system </li>  
   <li> Flagging, to make gameplay more bearable </li>
-  <li> How to?? Deal with corners when uncovering cells. </li>
+  <li> How to?? Deal with corners when uncovering cells </li>
 </ul>
