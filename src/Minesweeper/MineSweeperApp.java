@@ -44,7 +44,7 @@ public class MineSweeperApp {
         long end = System.nanoTime();
         displayAll(game);
 
-        System.out.println("Time elapsed: " + (end - start)/1000000000 + " seconds.");
+        System.out.println("Time elapsed: " + (end - start)/1000000000 + " seconds");
         System.out.println("Game over!");
         }
 
