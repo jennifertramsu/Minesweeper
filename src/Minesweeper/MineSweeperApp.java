@@ -23,9 +23,14 @@ public class MineSweeperApp {
             while (true) {
                 try {
                     x = in.nextInt();
+                    if (x < 0 || x > size - 1) {
+                        throw new Exception("Out of range!");
+                    }
                     break;
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid input! Only integer values are valid. Try again: ");
+                    in.next();
+                } catch (Exception e) {
                     in.next();
                 }
             }
